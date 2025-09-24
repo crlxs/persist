@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net/http"
 	"log"
+	"encoding/json"
 )
 
 func main() {
@@ -15,7 +16,7 @@ func main() {
 
 	mux := http.NewServeMux() //Request multiplexer
 
-	mux.HandleFunc("GET /exercises/", getExercises)
+	mux.HandleFunc("GET /exercise/", getExercise)
 	// mux.HandleFunc("GET /sets/", getSets)
 	// mux.HandleFunc("GET /workouts/", getWorkouts)
 	// mux.HandleFunc("GET /splits/", getSplits)
@@ -27,8 +28,22 @@ func main() {
 }
 
 // Handlers
+// A proper HTTP response has 3 key parts: a status code, header and a body.
 
-func getExercises(w http.ResponseWriter, r *http.Request) {
-	response := "You called the getExercises function."
+func getExercise(w http.ResponseWriter, r *http.Request) {
+	// response := "You called the getExercise function."
 	// utils.WriteJSONResponse(w, http.StatusOK, response)
+	// fmt.Println("getExercise")
+	
+	e := Exercise{Name: "Leg Press", Targetmuscles: []string{"Glutes", "Quadriceps"}, ID: 12}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(e)
 }
+
+
+
+
+
+
